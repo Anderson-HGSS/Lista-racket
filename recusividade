@@ -1,0 +1,29 @@
+#lang racket
+
+(require rackunit)
+
+(struct lista (primeiro resto) #:transparent)
+(struct vazia ()#:transparent)
+
+(define l1 (lista 8 (lista 7 (lista 6(vazia)))))
+(define lv (vazia))
+(define l2 (lista 9 (vazia)))
+(define l3 (lista 1 (lista 2 (lista 3 (vazia)))))
+
+;Exercício 1: Defina uma função que some os valores de uma lista de números
+
+(define (soma-lista lst)
+  (cond
+    [(vazia? lst) 0]
+    [else
+     (+ (lista-primeiro lst) (soma-lista (lista-resto lst)))]))
+
+(check-equal? (soma-lista lv) 0)
+(check-equal? (soma-lista l1) 11)
+(check-equal? (soma-lista l2) 9)
+(check-equal? (soma-lista l3) 6)
+
+;definindo uma lista dentro do teste
+(check-equal? (soma-lista (lista 1 (lista 2 (lista 3 (vazia))))) 5)
+
+
